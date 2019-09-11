@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace myfacade.Models
 {
-    public partial class Patient
+    public partial class VisiPatient
     {
-        public Patient()
+        public VisiPatient()
         {
-            BloodPressure = new HashSet<BloodPressure>();
+            ViSiBloodPressure = new HashSet<ViSiBloodPressure>();
         }
 
         public int Id { get; set; }
@@ -17,6 +17,6 @@ namespace myfacade.Models
         public string FamilyName { get; set; }
         public DateTime DateOfBirth { get; set; }
 
-        public virtual ICollection<BloodPressure> BloodPressure { get; set; }
+        public virtual ICollection<ViSiBloodPressure> ViSiBloodPressure { get; set; }
     }
 }
