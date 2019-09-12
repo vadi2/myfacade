@@ -31,18 +31,18 @@ namespace myfacade.Models
         {
             modelBuilder.HasAnnotation("ProductVersion", "2.2.6-servicing-10079");
 
-            modelBuilder.Entity<BloodPressure>(entity =>
+            modelBuilder.Entity<ViSiBloodPressure>(entity =>
             {
                 entity.Property(e => e.MeasuredAt).HasColumnType("datetime");
 
-                entity.HasOne(d => d.Patient)
-                    .WithMany(p => p.BloodPressure)
+                entity.HasOne(d => d.ViSiPatient)
+                    .WithMany(p => p.ViSiBloodPressure)
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__BloodPres__Patie__38996AB5");
             });
 
-            modelBuilder.Entity<Patient>(entity =>
+            modelBuilder.Entity<ViSiPatient>(entity =>
             {
                 entity.Property(e => e.DateOfBirth).HasColumnType("date");
 
