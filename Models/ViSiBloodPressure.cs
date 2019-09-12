@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace myfacade.Models
 {
-    public partial class VisiBloodPressure
+    public partial class ViSiBloodPressure
     {
         public int Id { get; set; }
         public int PatientId { get; set; }
@@ -11,6 +11,6 @@ namespace myfacade.Models
         public int Systolic { get; set; }
         public int Diastolic { get; set; }
 
-        public virtual VisiPatient VisiPatient { get; set; }
+        public virtual ViSiPatient ViSiPatient { get; set; }
     }
 }
