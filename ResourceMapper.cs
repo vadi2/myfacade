@@ -5,7 +5,7 @@ using myfacade.Models;
 
 namespace myfacade
 {
-    class ResourceMapper
+    public class ResourceMapper
     {
         public IResource MapPatient(ViSiPatient source)
         {

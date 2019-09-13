@@ -8,7 +8,14 @@ namespace myfacade
 {
   public class PatientQuery : RelationalQuery<ViSiPatient>
   {
-    PatientQuery AddValueFilter(string parameterName, TokenValue value) {
+  }
+
+  public class PatientQueryFactory : RelationalQueryFactory<ViSiPatient, PatientQuery>
+  {
+    public PatientQueryFactory(DbContext onContext) : base("Patient", onContext) { }
+
+    public override PatientQuery AddValueFilter(string parameterName, TokenValue value)
+    {
       if (parameterName == "_id")
       {
         if (!int.TryParse(value.Code, out int patientId))
@@ -22,11 +29,6 @@ namespace myfacade
       }
       return base.AddValueFilter(parameterName, value);
     }
-  }
-
-  public class PatientQueryFactory : RelationalQueryFactory<ViSiPatient, PatientQuery>
-  {
-    public PatientQueryFactory(DbContext onContext) : base("Patient", onContext) { }
   }
 }
 
