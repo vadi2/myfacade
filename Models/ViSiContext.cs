@@ -14,8 +14,8 @@ namespace myfacade.Models
             _dbOptionsAccessor = dbOptionsAccessor;
         }
 
-        public virtual DbSet<ViSiBloodPressure> ViSiBloodPressure { get; set; }
-        public virtual DbSet<ViSiPatient> ViSiPatient { get; set; }
+        public virtual DbSet<ViSiBloodPressure> BloodPressure { get; set; }
+        public virtual DbSet<ViSiPatient> Patient { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
