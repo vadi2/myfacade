@@ -23,6 +23,7 @@ namespace myfacade
 
     protected override async Task<SearchResult> Search(string resourceType, IArgumentCollection arguments, SearchOptions options)
     {
+      Console.WriteLine($"XXX Searching for: {resourceType}");
       switch (resourceType)
       {
         case "Patient":
@@ -34,6 +35,7 @@ namespace myfacade
 
     private async Task<SearchResult> SearchPatient(IArgumentCollection arguments, SearchOptions options)
     {
+      Console.WriteLine($"XXX SearchPatient {arguments.ToString()}");
       var query = _queryContext.CreateQuery(new PatientQueryFactory(_visiContext), arguments, options);
 
       var count = await query.ExecuteCount(_visiContext);
@@ -45,9 +47,12 @@ namespace myfacade
 
         foreach (var visiPatient in visiPatients)
         {
+          Console.WriteLine($"XXX got a patient back, mapping and adding...");
           patientResources.Add(_resourceMapper.MapPatient(visiPatient));
         }
       }
+      Console.WriteLine($"{patientResources[0].ToString()}");
+      Console.WriteLine($"XXX pagesize {query.GetPageSize()}, count {count}");
       return new SearchResult(patientResources, query.GetPageSize(), count);
     }
   }

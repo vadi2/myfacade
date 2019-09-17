@@ -2,6 +2,7 @@ using Vonk.Core.Common;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Support;
 using myfacade.Models;
+using Vonk.Fhir.R3;
 
 namespace myfacade
 {
@@ -18,7 +19,7 @@ namespace myfacade
                                                   source.PatientNumber));
             // etc.
 
-            return patient as IResource;
+            return patient.ToIResource();
         }
     }
 }
