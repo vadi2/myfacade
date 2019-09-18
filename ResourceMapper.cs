@@ -4,6 +4,7 @@ using Hl7.Fhir.Support;
 using myfacade.Models;
 using Vonk.Fhir.R3;
 using System.Collections.Generic;
+using System;
 
 namespace myfacade
 {
@@ -34,6 +35,17 @@ namespace myfacade
       patient.Name.Add(patientName);
 
       return patient.ToIResource();
+    }
+
+    public IResource MapBloodPressure(ViSiBloodPressure source)
+    {
+        var offset = new DateTimeOffset(source.MeasuredAt);
+        Console.WriteLine($"datetime - {source.MeasuredAt}, offset - {offset}");
+        var observation = new Observation{
+            Effective = new FhirDateTime(new DateTimeOffset(source.MeasuredAt).ToFhirDateTime())
+        };
+
+        return observation.ToIResource();
     }
   }
 }
