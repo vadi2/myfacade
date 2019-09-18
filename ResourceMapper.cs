@@ -5,6 +5,7 @@ using myfacade.Models;
 using Vonk.Fhir.R3;
 using System.Collections.Generic;
 using System;
+using Vonk.Core.Context;
 
 namespace myfacade
 {
@@ -39,13 +40,28 @@ namespace myfacade
 
     public IResource MapBloodPressure(ViSiBloodPressure source)
     {
-        var offset = new DateTimeOffset(source.MeasuredAt);
-        Console.WriteLine($"datetime - {source.MeasuredAt}, offset - {offset}");
-        var observation = new Observation{
-            Effective = new FhirDateTime(new DateTimeOffset(source.MeasuredAt).ToFhirDateTime())
-        };
+      var offset = new DateTimeOffset(source.MeasuredAt);
+      Console.WriteLine($"datetime - {source.MeasuredAt}, offset - {offset}");
+      var observation = new Observation
+      {
+        Effective = new FhirDateTime(new DateTimeOffset(source.MeasuredAt).ToFhirDateTime()),
+        Subject = new ResourceReference($"Patient/{source.PatientId}"),
+        Code = new CodeableConcept("http://loinc.org", "85354-9")
+      };
 
-        return observation.ToIResource();
+      observation.Component.Add(new Observation.ComponentComponent
+      {
+        Code = new CodeableConcept("http://loinc.org", "8480-6", "Systolic blood pressure"),
+        Value = new Quantity(source.Systolic, "mm[Hg]", VonkConstants.UcumSystem)
+      });
+
+      observation.Component.Add(new Observation.ComponentComponent()
+      {
+        Code = new CodeableConcept("http://loinc.org", "8462-4", "Diastolic blood pressure"),
+        Value = new Quantity(source.Diastolic, "mm[Hg]", VonkConstants.UcumSystem)
+      });
+
+      return observation.ToIResource();
     }
   }
 }
