@@ -41,7 +41,7 @@ namespace myfacade
     public IResource MapBloodPressure(ViSiBloodPressure source)
     {
       var offset = new DateTimeOffset(source.MeasuredAt);
-      Console.WriteLine($"datetime - {source.MeasuredAt}, offset - {offset}");
+
       var observation = new Observation
       {
         Effective = new FhirDateTime(new DateTimeOffset(source.MeasuredAt).ToFhirDateTime()),
