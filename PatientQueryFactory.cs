@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using myfacade.Models;
 using System;
 using Vonk.Core.Repository;
+using System.Linq;
 
 namespace myfacade
 {
@@ -26,6 +27,18 @@ namespace myfacade
         {
           return PredicateQuery(vp => vp.Id == patientId);
         }
+      }
+      return base.AddValueFilter(parameterName, value);
+    }
+
+    public override PatientQuery AddValueFilter(string parameterName, ReferenceFromValue value)
+    {
+      if (parameterName == "subject" && value.Source == "Observation")
+      {
+        var obsQuery = value.CreateQuery(new BPQueryFactory(OnContext));
+        var obsIds = obsQuery.Execute(OnContext).Select(bp => bp.PatientId);
+
+        return PredicateQuery(p => obsIds.Contains(p.Id));
       }
       return base.AddValueFilter(parameterName, value);
     }

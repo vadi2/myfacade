@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using myfacade.Models;
 using System;
 using Vonk.Core.Repository;
+using System.Linq;
 
 namespace myfacade
 {
@@ -20,12 +21,25 @@ namespace myfacade
       {
         if (!int.TryParse(value.Code, out int observationId))
         {
-          throw new ArgumentException("Patient Id must be an integer value.");
+          throw new ArgumentException("Observation Id must be an integer value.");
         }
         else
         {
           return PredicateQuery(vp => vp.Id == observationId);
         }
+      }
+      return base.AddValueFilter(parameterName, value);
+    }
+
+    public override BloodPressureQuery AddValueFilter(string parameterName, ReferenceToValue value)
+    {
+      if (parameterName == "subject" && value.Targets.Contains("Patient"))
+      {
+        var patientQuery = value.CreateQuery(new PatientQueryFactory(OnContext));
+        var patIds = patientQuery.Execute(OnContext).Select(p => p.Id);
+        Console.WriteLine($"ids: {String.Join(", ", patIds.ToArray())}");
+
+        return PredicateQuery(bp => patIds.Contains(bp.PatientId));
       }
       return base.AddValueFilter(parameterName, value);
     }
